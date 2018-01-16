@@ -4,11 +4,16 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.novoda:bintray-release:0.8.0'
     }
 }
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
+def commitCount = "";
 
 android {
+    getCommitCount(commitCount)
+
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
 
@@ -16,7 +21,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.0" + commitCount
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -24,6 +29,28 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+}
+
+publish {
+    userOrg = 'bscrussia'
+    groupId = 'com.github.bscrussia'
+    artifactId = 'fingerly'
+    publishVersion = '1.0.2'
+    desc = 'This repository contains a library for working with fingerprints on different devices.'
+    licences = ['Apache-2.0']
+    uploadName = 'Fingerly'
+    website = 'https://github.com/BSC-Russia/fingerly.git'
+}
+
+private void getCommitCount(commitCount) {
+    new ByteArrayOutputStream().withStream { os ->
+        def result = exec {
+            executable = 'git'
+            args = ['rev-list', '--count', 'HEAD']
+            standardOutput = os
+        }
+        commitCount = os.toString()
     }
 }
 
