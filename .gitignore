@@ -23,5 +23,4 @@ obj
 
 #MacOS
 .DS_Store
-.idea/sonarIssues.xml
-.idea/workspace.xml
+.idea/
