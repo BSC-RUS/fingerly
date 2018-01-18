@@ -85,7 +85,6 @@ public class CipherInitializer {
 		}
 	}
 
-
 	private boolean tryReadOldCipher(String hash) {
 		Cipher cipher = initNewCipher(false, hash + PASS_REPOSITORY_SALT);
 		if (cipher == null)

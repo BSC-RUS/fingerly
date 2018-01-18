@@ -78,7 +78,7 @@ public class MeizuTouchId extends AbstractSpecialTouchId {
                     callback.onAuthenticationHelp(FINGERPRINT_ACQUIRED_GOOD, "FINGERPRINT_ACQUIRED_GOOD");
                     String hashedFingers = getHashedFingers();
                     if (!hashChangedChecker.checkHash(hashedFingers)) {
-                        callback.onAuthenticationError(FINGERPRINT_ERROR_NO_SPACE, "");
+                        callback.onAuthenticationError(FINGERPRINT_ERROR_NO_SPACE, "The keystore was compromised");
                         return;
                     } else {
                         callback.onAuthenticationSucceeded(cipherInitializer.getCipher(mode == CipherMode.ENCRYPT, hashedFingers));

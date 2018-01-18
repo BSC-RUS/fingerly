@@ -31,6 +31,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import ru.bscmsk.fingerly.TouchIdCodes;
 import ru.bscmsk.fingerly.impl.AbstractTouchId;
 import ru.bscmsk.fingerly.interfaces.UnionTouchIdCallback;
 import ru.bscmsk.fingerly.utils.AppLogger;
@@ -242,6 +243,11 @@ public class AndroidTouchId extends AbstractTouchId {
 			public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
 				super.onAuthenticationSucceeded(result);
 				makeVibrate();
+				if(result.getCryptoObject() == null || result.getCryptoObject().getCipher() == null) {
+					callback.onAuthenticationError(TouchIdCodes.FINGERPRINT_ERROR_NO_SPACE, "The keystore was compromised");
+					return;
+				}
+
 				callback.onAuthenticationSucceeded(result.getCryptoObject().getCipher());
 			}
 
