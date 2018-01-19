@@ -34,9 +34,9 @@ android {
 
 publish {
     userOrg = 'bscrussia'
-    groupId = 'com.github.bscrussia'
+    groupId = 'ru.bsc.mobile'
     artifactId = 'fingerly'
-    publishVersion = '1.0.2'
+    publishVersion = '1.0.3'
     desc = 'This repository contains a library for working with fingerprints on different devices.'
     licences = ['Apache-2.0']
     uploadName = 'Fingerly'
