@@ -7,6 +7,6 @@ Android library designed simple way to integrate fingerprints into your applicai
 Add to the `build.gradle` of your app module:
 ```Groovy
 dependencies {
-    compile ''ru.bsc.mobile:fingerly:1.0.3'
+    compile 'ru.bsc.mobile:fingerly:1.0.3'
 }
 ```
