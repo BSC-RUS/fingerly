@@ -1,0 +1,12 @@
+<resources>
+	<string name="app_name">Fingerly Demo</string>
+	<string name="login_add_new_touch">Add new touch</string>
+	<string name="reset_existing_touch">Reset existing touch</string>
+	<string name="tv_add_new_touch">You can add a new fingerprint to the vault by emulating the saving of the touch on the server</string>
+	<string name="tv_reset_touch">You can reset previously added touches</string>
+	<string name="login_add_new_touch_loader_text">Please touch the fingerprint scanner</string>
+	<string name="login_success_title">You have successfully added a fingerprint, now, to enter the system, attach a finger to the fingerprint scanner</string>
+	<string name="login_error_title">For authentication, add fingerprints</string>
+	<string name="authentication_result_title">Congratulations. You have successfully authenticated</string>
+	<string name="login_emty_fingerprint_storage">Empty store of fingerprints. Add the finger pegs to the phone.</string>
+</resources>

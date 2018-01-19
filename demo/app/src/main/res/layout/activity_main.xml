@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="ru.bscmsk.fingerlydemo.MainActivity"
+              android:animateLayoutChanges="true"
+              android:layout_marginLeft="10dp"
+              android:layout_marginRight="10dp"
+		>
+
+	<TextView
+			android:id="@+id/touch_error_view"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignParentTop="true"
+			android:layout_marginBottom="20dp"
+			android:layout_marginTop="20dp"
+			android:gravity="center"
+			android:text="timeout error"
+			android:textColor="@android:color/holo_red_light"
+			android:textSize="15dp"
+			android:visibility="invisible"
+			/>
+
+	<LinearLayout
+			android:id="@+id/src_msg_block"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			>
+
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:text="source message"
+				/>
+
+		<EditText
+				android:id="@+id/source_message"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				/>
+	</LinearLayout>
+
+	<LinearLayout
+			android:id="@+id/encrypt_block"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="10dp"
+			android:orientation="vertical"
+			>
+
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:text="encrypted message"
+				/>
+
+		<EditText
+				android:id="@+id/encrypted_message"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:enabled="false"
+				/>
+	</LinearLayout>
+
+	<Button
+			android:id="@+id/action_btn"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			/>
+
+	<Button
+			android:id="@+id/cancel_btn"
+			android:layout_width="match_parent"
+			android:layout_height="40dp"
+			android:layout_marginTop="10dp"
+			android:text="Cancel"
+			/>
+</LinearLayout>

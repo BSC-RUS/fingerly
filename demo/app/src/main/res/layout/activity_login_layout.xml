@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="ru.bscmsk.fingerlydemo.LoginActivity"
+                android:animateLayoutChanges="true"
+                android:gravity="center"
+                android:background="@color/colorPrimary"
+		>
+
+	<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:padding="20dp"
+			>
+
+		<LinearLayout
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center"
+				>
+
+			<TextView
+					android:id="@+id/tv_title"
+					style="@style/text_info_style"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/login_success_title"
+					/>
+
+			<ImageView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="20dp"
+					android:src="@mipmap/ic_fingerprint_white_48dp"
+					/>
+		</LinearLayout>
+
+		<LinearLayout
+				android:layout_weight="1"
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:gravity="center"
+				>
+
+			<TextView
+					style="@style/text_info_style"
+					android:text="@string/tv_add_new_touch"
+					/>
+
+			<Button
+					android:id="@+id/btn_add_new_touch"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					style="@style/Widget.AppCompat.Button.Colored"
+					android:text="@string/login_add_new_touch"
+					/>
+
+			<TextView
+					style="@style/text_info_style"
+					android:layout_marginTop="20dp"
+					android:text="@string/tv_reset_touch"
+					/>
+
+			<Button
+					android:id="@+id/btn_reset_touch"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					style="@style/Widget.AppCompat.Button.Colored"
+					android:text="@string/reset_existing_touch"
+					/>
+		</LinearLayout>
+	</LinearLayout>
+
+</RelativeLayout>
