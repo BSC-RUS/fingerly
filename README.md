@@ -10,3 +10,14 @@ dependencies {
     compile 'ru.bsc.mobile:fingerly:1.0.3'
 }
 ```
+and add the repository to the project file:
+
+```Groovy
+allprojects {
+	repositories {
+            maven { 
+                url 'https://bscrussia.bintray.com/maven'
+            } 
+	}
+}
+```
