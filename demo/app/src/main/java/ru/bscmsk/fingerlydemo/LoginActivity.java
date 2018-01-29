@@ -31,7 +31,7 @@ public class LoginActivity extends AbstractBaseActivity {
 		updateEnableStatusBtn();
 	}
 
-	private void hasCompromiseStorage() {
+	private void resetStorage() {
 		getFpService().reset();
 		getFpService().cancel();
 		updateEnableStatusBtn();
@@ -56,6 +56,7 @@ public class LoginActivity extends AbstractBaseActivity {
 					updateEnableStatusBtn();
 					updateTitleViewState();
 				});
+				return;
 			}
 
 			showProgress(getString(R.string.login_add_new_touch_loader_text));
@@ -210,7 +211,7 @@ public class LoginActivity extends AbstractBaseActivity {
 		super.onResume();
 
 		if(getFpService().isStorageCompromised()){
-			hasCompromiseStorage();
+			resetStorage();
 			return;
 		}
 

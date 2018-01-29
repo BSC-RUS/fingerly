@@ -43,7 +43,7 @@ public class FingerPrintService implements IFingerPrintService {
 		return fingerPrintService;
 	}
 
-	protected FingerPrintService(Context context, PreferencesStorage prefs) {
+	protected FingerPrintService(Context context, IPrefsStore prefs) {
 		this.prefs = prefs;
 		this.touchId = TouchIdFactory.getTouchId(context, prefs);
 		this.handler = new Handler();
