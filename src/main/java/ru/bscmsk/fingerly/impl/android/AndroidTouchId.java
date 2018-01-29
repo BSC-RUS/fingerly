@@ -133,7 +133,8 @@ public class AndroidTouchId extends AbstractTouchId {
 
 	@Override
 	public void clearKeystore() {
-		if (mKeyGenerator == null) return;
+		if (mKeyGenerator == null)
+			return;
 
 		try {
 			mKeyStore.load(null);
