@@ -12,7 +12,7 @@ public interface IUnionTouchId {
     /**
      * Create a storage key
      */
-    void createKey();
+    void createKey(boolean invalidatedByBiometricEnrollment);
 
     /**
      * Verify API support on the current device

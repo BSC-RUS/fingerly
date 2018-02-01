@@ -1,14 +1,9 @@
 package ru.bscmsk.fingerly.cryptography;
 
 import android.text.TextUtils;
-import android.util.Base64;
 
-import java.security.MessageDigest;
-import java.util.Arrays;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 
 import ru.bscmsk.fingerly.utils.IPrefsStore;
 
@@ -18,77 +13,52 @@ import ru.bscmsk.fingerly.utils.IPrefsStore;
 
 public class HashChangedChecker {
 
-	private final String HASH_KEY = "HASH_KEY";
-	private final String PASS_REPOSITORY_SALT = "3ae3bec920fa5b28749bb1233f6be7014e32313ce18a3b461fd9e96f9be4d79f";
+    private final String HASH_KEY = "HASH_KEY";
+    private static final String INVALIDATE_BY_BIOMETRIC_ENROLLMENT = "INVALIDATE_BY_BIOMETRIC_ENROLLMENT";
+    private final String PASS_REPOSITORY_SALT = "3ae3bec920fa5b28749bb1233f6be7014e32313ce18a3b461fd9e96f9be4d79f";
 
-	private IPrefsStore prefsStore;
+    private IPrefsStore prefsStore;
 
-	public HashChangedChecker(IPrefsStore sharedPreferences) {
-		this.prefsStore = sharedPreferences;
-	}
+    public HashChangedChecker(IPrefsStore sharedPreferences) {
+        this.prefsStore = sharedPreferences;
+    }
 
-	private Cipher initNewCipher(boolean encrypt, String key) {
-		try {
-			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-			MessageDigest sha = MessageDigest.getInstance("SHA-1");
-			byte[] sec = sha.digest(key.getBytes());
-			sec = Arrays.copyOf(sec, 16);
-			SecretKeySpec keySpec = new SecretKeySpec(sec, "AES");
-			IvParameterSpec ivParameterSpec = new IvParameterSpec(sec);
-			if (encrypt)
-				cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParameterSpec);
-			else
-				cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec);
-			return cipher;
-		} catch (Exception e) {
-			return null;
-		}
-	}
+    public void saveHash(String hash, boolean invalidateByEnrolment) {
+        try {
+            String fingers = CryptographyUtils.getHashed(hash, PASS_REPOSITORY_SALT);
+            prefsStore.add(HASH_KEY, fingers);
+            prefsStore.add(INVALIDATE_BY_BIOMETRIC_ENROLLMENT, invalidateByEnrolment);
+        } catch (NoSuchAlgorithmException |
+                UnsupportedEncodingException e) {
+            prefsStore.remove(HASH_KEY);
+            prefsStore.remove(INVALIDATE_BY_BIOMETRIC_ENROLLMENT);
+        }
+    }
 
-	public void saveHash(String hash) {
-		Cipher cipher = initNewCipher(true, hash + PASS_REPOSITORY_SALT);
-		if (cipher != null) {
-			try {
-				String fingers = Base64.encodeToString(cipher.doFinal(hash.getBytes()), Base64.NO_WRAP);
-				prefsStore.add(HASH_KEY, fingers);
-			} catch (Exception e) {
-				prefsStore.remove(HASH_KEY);
-			}
-		} else {
-			prefsStore.remove(HASH_KEY);
-		}
-	}
+    public boolean hasSavedHash() {
+        if (!prefsStore.contains(HASH_KEY))
+            return false;
+        return !TextUtils.isEmpty(prefsStore.get(HASH_KEY, String.class, null));
+    }
 
-	public boolean hasSavedHash() {
-		if (!prefsStore.contains(HASH_KEY))
-			return false;
-		try {
-			return Base64.decode(prefsStore.get(HASH_KEY, String.class, null), Base64.NO_WRAP) != null;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+    public boolean isInvalidateByBiometricEnrollmentEnabled() {
+        return prefsStore.get(INVALIDATE_BY_BIOMETRIC_ENROLLMENT, boolean.class, true);
+    }
 
-	public void removeHash() {
-		prefsStore.remove(HASH_KEY);
-	}
+    public void removeHash() {
+        prefsStore.remove(HASH_KEY);
+    }
 
-	public boolean checkHash(String hash) {
-		if (TextUtils.isEmpty(hash))
-			return false;
-		Cipher cipher = initNewCipher(false, hash + PASS_REPOSITORY_SALT);
-		if (cipher == null)
-			return false;
-		String oldFingerEnc = prefsStore.get(HASH_KEY, String.class,null);
-		if (oldFingerEnc == null)
-			return false;
-		try {
-			byte[] finger = cipher.doFinal(Base64.decode(oldFingerEnc, Base64.NO_WRAP));
-			String oldHash = new String(finger);
-			return oldHash.equals(hash);
-		} catch (Exception e) {
-			return false;
-		}
-	}
+    public boolean checkHash(String hash) {
+        if (TextUtils.isEmpty(hash) || !isInvalidateByBiometricEnrollmentEnabled())
+            return false;
+        try {
+            String oldHash = CryptographyUtils.getHashed(prefsStore.get(HASH_KEY, String.class, null), PASS_REPOSITORY_SALT);
+            return hash.equals(oldHash);
+        } catch (NoSuchAlgorithmException |
+                UnsupportedEncodingException e) {
+            return false;
+        }
+    }
 
 }

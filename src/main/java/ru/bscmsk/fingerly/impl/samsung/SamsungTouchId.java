@@ -59,6 +59,8 @@ public class SamsungTouchId extends AbstractSpecialTouchId {
     }
 
     private void init(Context context) {
+        if (!isPermissionGranted())
+            throw new SecurityException(String.format("caller does not have permission to access fingerprint scanner. Permission code is %s", permissionCode()));
         AppLogger.d(LOG_TAG, "samsung fingerprint api init");
         if (isInitialized)
             return;
@@ -80,10 +82,9 @@ public class SamsungTouchId extends AbstractSpecialTouchId {
 
     @Override
     public boolean isApiSupported() {
-        boolean result = true;
-        result = result && isPermissionGranted();
-        result = result && mSpass.isFeatureEnabled(Spass.DEVICE_FINGERPRINT);
-        return result;
+        if (!isPermissionGranted())
+            throw new SecurityException(String.format("caller does not have permission to access fingerprint scanner. Permission code is %s", permissionCode()));
+       return mSpass.isFeatureEnabled(Spass.DEVICE_FINGERPRINT);
     }
 
     @Override
@@ -196,11 +197,14 @@ public class SamsungTouchId extends AbstractSpecialTouchId {
                     needRetryIdentify = false;
                     callback.onAuthenticationHelp(FINGERPRINT_ACQUIRED_GOOD, "FINGERPRINT_ACQUIRED_GOOD");
                     String hashedFingers = getHashedFingers();
-                    if (!hashChangedChecker.checkHash(hashedFingers)) {
-                        callback.onAuthenticationError(FINGERPRINT_ERROR_NO_SPACE, "The keystore was compromised");
-                        return;
+                    if (mode == CipherMode.DECRYPT) {
+                        if (!hashChangedChecker.checkHash(hashedFingers)) {
+                            callback.onAuthenticationError(FINGERPRINT_ERROR_NO_SPACE, "The keystore was compromised");
+                            return;
+                        }
+                        callback.onAuthenticationSucceeded(cipherInitializer.getCipher(false, hashedFingers));
                     } else {
-                        callback.onAuthenticationSucceeded(cipherInitializer.getCipher(mode == CipherMode.ENCRYPT, hashedFingers));
+                        callback.onAuthenticationSucceeded(cipherInitializer.getCipher(true, hashedFingers));
                     }
                 } else {
                     needRetryIdentify = eventStatus != STATUS_USER_CANCELLED;

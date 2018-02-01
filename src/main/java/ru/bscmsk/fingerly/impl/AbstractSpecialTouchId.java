@@ -27,12 +27,12 @@ public abstract class AbstractSpecialTouchId extends AbstractTouchId {
     }
 
     @Override
-    public void createKey() {
+    public void createKey(boolean invalidateByEnrolment) {
         String fingerHash = getHashedFingers();
         cipherInitializer.removeCipherKey();
-        cipherInitializer.generateNewKey(fingerHash, AES_KEY_LEN);
+        cipherInitializer.generateNewKey(fingerHash, AES_KEY_LEN, invalidateByEnrolment);
         hashChangedChecker.removeHash();
-        hashChangedChecker.saveHash(fingerHash);
+        hashChangedChecker.saveHash(fingerHash, invalidateByEnrolment);
     }
 
     @Override
