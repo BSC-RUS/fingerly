@@ -19,7 +19,14 @@ public class TouchIdStub extends AbstractTouchId{
 	}
 
 	@Override
-	public void createKey() {}
+	protected void initTouchId(Context context) {
+
+	}
+
+	@Override
+	public void createKey(boolean invalidatedByBiometricEnrollment) {
+
+	}
 
 	@Override
 	public boolean isApiSupported() {
@@ -62,6 +69,4 @@ public class TouchIdStub extends AbstractTouchId{
 	@Override
 	public void clearKeystore() {}
 
-	@Override
-	protected void initTouchId() {}
 }

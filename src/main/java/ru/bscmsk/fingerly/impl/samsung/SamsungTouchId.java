@@ -59,8 +59,6 @@ public class SamsungTouchId extends AbstractSpecialTouchId {
     }
 
     private void init(Context context) {
-        if (!isPermissionGranted())
-            throw new SecurityException(String.format("caller does not have permission to access fingerprint scanner. Permission code is %s", permissionCode()));
         AppLogger.d(LOG_TAG, "samsung fingerprint api init");
         if (isInitialized)
             return;
@@ -83,8 +81,8 @@ public class SamsungTouchId extends AbstractSpecialTouchId {
     @Override
     public boolean isApiSupported() {
         if (!isPermissionGranted())
-            throw new SecurityException(String.format("caller does not have permission to access fingerprint scanner. Permission code is %s", permissionCode()));
-       return mSpass.isFeatureEnabled(Spass.DEVICE_FINGERPRINT);
+            return false;
+        return mSpass.isFeatureEnabled(Spass.DEVICE_FINGERPRINT);
     }
 
     @Override

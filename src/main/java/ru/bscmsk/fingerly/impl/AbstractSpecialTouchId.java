@@ -21,16 +21,16 @@ public abstract class AbstractSpecialTouchId extends AbstractTouchId {
     }
 
     @Override
-    protected void initTouchId() {
+    protected void initTouchId(Context context) {
         this.hashChangedChecker = new HashChangedChecker(prefsStore);
-        this.cipherInitializer = new CipherInitializer(prefsStore);
+        this.cipherInitializer = new CipherInitializer(context, prefsStore);
     }
 
     @Override
     public void createKey(boolean invalidateByEnrolment) {
         String fingerHash = getHashedFingers();
         cipherInitializer.removeCipherKey();
-        cipherInitializer.generateNewKey(fingerHash, AES_KEY_LEN, invalidateByEnrolment);
+        cipherInitializer.generateNewKey(AES_KEY_LEN, invalidateByEnrolment);
         hashChangedChecker.removeHash();
         hashChangedChecker.saveHash(fingerHash, invalidateByEnrolment);
     }

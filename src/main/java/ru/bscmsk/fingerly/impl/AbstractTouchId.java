@@ -24,10 +24,10 @@ public abstract class AbstractTouchId implements IUnionTouchId {
         this.context = context;
         this.SALT = context.getApplicationContext().getPackageName();
         this.vibrate = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
-        initTouchId();
+        initTouchId(context);
     }
 
-    protected abstract void initTouchId();
+    protected abstract void initTouchId(Context context);
 
     protected void makeVibrate() {
         if (vibrate != null)

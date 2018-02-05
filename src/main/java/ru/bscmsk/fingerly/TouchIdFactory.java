@@ -20,6 +20,11 @@ public class TouchIdFactory {
     public static IUnionTouchId getTouchId(Context context, IPrefsStore preferences) {
         AppLogger.d(TouchIdFactory.class,"Android build code: " + Build.VERSION.SDK_INT + " version: " + Build.VERSION.RELEASE);
 
+        SamsungTouchId samsungTouchId = new SamsungTouchId(context, preferences);
+        if (samsungTouchId.isApiSupported()) {
+            AppLogger.d(TouchIdFactory.class, "Samsung api is supported.\n Use Samsung api");
+            return samsungTouchId;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             AppLogger.d(TouchIdFactory.class,"Android version is supported");
             AndroidTouchId androidTouchId = new AndroidTouchId(context, preferences);
@@ -35,11 +40,6 @@ public class TouchIdFactory {
             return meizuTouchId;
         }
 
-        SamsungTouchId samsungTouchId = new SamsungTouchId(context, preferences);
-        if (samsungTouchId.isApiSupported()) {
-            AppLogger.d(TouchIdFactory.class, "Samsung api is supported.\n Use Samsung api");
-            return samsungTouchId;
-        }
         AppLogger.d(TouchIdFactory.class, "Use fingerprint stub");
         return new TouchIdStub(context, preferences);
     }

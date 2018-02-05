@@ -6,17 +6,19 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ExecutionException;
+
+import javax.crypto.Cipher;
+
 import ru.bscmsk.fingerly.TouchIdFactory;
 import ru.bscmsk.fingerly.cryptography.CryptographyUtils;
 import ru.bscmsk.fingerly.interfaces.IUnionTouchId;
 import ru.bscmsk.fingerly.interfaces.UnionTouchIdCallback;
 import ru.bscmsk.fingerly.utils.IPrefsStore;
 import ru.bscmsk.fingerlydemo.util.PreferencesStorage;
-
-import javax.crypto.Cipher;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
 
 import static ru.bscmsk.fingerly.TouchIdCodes.FINGERPRINT_ERROR_CANCELED;
 import static ru.bscmsk.fingerly.TouchIdCodes.FINGERPRINT_ERROR_LOCKOUT;
@@ -107,7 +109,7 @@ public class FingerPrintService implements IFingerPrintService {
 	@Override
 	public void createFingerRequest(IFingerPrintCallback callback) {
 		reset();
-		touchId.createKey();
+		touchId.createKey(true);
 		recognizeFinger(IUnionTouchId.CipherMode.ENCRYPT, callback);
 	}
 
