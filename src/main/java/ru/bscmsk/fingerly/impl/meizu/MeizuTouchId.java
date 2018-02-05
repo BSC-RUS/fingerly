@@ -82,9 +82,9 @@ public class MeizuTouchId extends AbstractSpecialTouchId {
                             callback.onAuthenticationError(FINGERPRINT_ERROR_NO_SPACE, "The keystore was compromised");
                             return;
                         }
-                        callback.onAuthenticationSucceeded(cipherInitializer.getCipher(false, hashedFingers));
+                        callback.onAuthenticationSucceeded(cipherInitializer.getCipher(false, hashedFingers, hashChangedChecker.isInvalidateByBiometricEnrollmentEnabled()));
                     } else {
-                        callback.onAuthenticationSucceeded(cipherInitializer.getCipher(true, hashedFingers));
+                        callback.onAuthenticationSucceeded(cipherInitializer.getCipher(true, hashedFingers, hashChangedChecker.isInvalidateByBiometricEnrollmentEnabled()));
                     }
                 }
 

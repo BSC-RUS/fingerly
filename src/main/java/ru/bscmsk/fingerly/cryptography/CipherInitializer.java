@@ -56,7 +56,7 @@ public class CipherInitializer {
         }
         if (key != null) {
             String cipherKey = hash + PASS_REPOSITORY_SALT;
-            Cipher cipher = initNewCipher(true, cipherKey);
+            Cipher cipher = initNewCipher(true, cipherKey,invalidate);
             if (cipher == null) {
                 key = null;
                 return;
@@ -70,8 +70,8 @@ public class CipherInitializer {
         }
     }
 
-    public Cipher getCipher(boolean encrypt, String key) {
-        if (this.key == null && !tryReadOldCipher(key))
+    public Cipher getCipher(boolean encrypt, String key, boolean invalidate) {
+        if (this.key == null && !tryReadOldCipher(key,invalidate))
             return null;
         try {
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -86,7 +86,7 @@ public class CipherInitializer {
         }
     }
 
-    private boolean tryReadOldCipher(String hash) {
+   /* private boolean tryReadOldCipher(String hash) {
         Cipher cipher = initNewCipher(false, hash + PASS_REPOSITORY_SALT);
         if (cipher == null)
             return false;
@@ -120,5 +120,5 @@ public class CipherInitializer {
         } catch (Exception e) {
             return null;
         }
-    }
+    }*/
 }
