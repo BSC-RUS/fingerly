@@ -38,7 +38,7 @@ public abstract class AbstractSpecialTouchId extends AbstractTouchId {
     @Override
     public void clearKeystore() {
         hashChangedChecker.removeHash();
-        hashChangedChecker.removeHash();
+        cipherInitializer.removeCipherKey();
     }
 
     @Override

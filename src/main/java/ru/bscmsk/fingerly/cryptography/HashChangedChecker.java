@@ -51,10 +51,10 @@ public class HashChangedChecker {
 
     public boolean checkHash(String hash) {
         if (TextUtils.isEmpty(hash) || !isInvalidateByBiometricEnrollmentEnabled())
-            return false;
+            return true;
         try {
-            String oldHash = CryptographyUtils.getHashed(prefsStore.get(HASH_KEY, String.class, null), PASS_REPOSITORY_SALT);
-            return hash.equals(oldHash);
+            String oldHash = prefsStore.get(HASH_KEY, String.class, null);
+            return CryptographyUtils.getHashed(hash, PASS_REPOSITORY_SALT).equals(oldHash);
         } catch (NoSuchAlgorithmException |
                 UnsupportedEncodingException e) {
             return false;
