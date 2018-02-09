@@ -22,9 +22,8 @@ import ru.bscmsk.fingerly.utils.IPrefsStore;
 public class CipherInitializer {
 
     private final String CIPHER_KEY = "CIPHER_KEY";
-    private final String IV_KEY = "CIPHER_KEY";
+    private final String IV_KEY = "IV_KEY";
     private final String CIPHER_KEY_ALIAS = "FP_KEY";
-    private static final String ANDROID_KEY_STORE_NAME = "AndroidKeyStore";
 
     private static final String ALGORITHM_AES = "AES";
     private static final String AES_MODE = "AES/CBC/PKCS5Padding";
