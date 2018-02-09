@@ -109,7 +109,7 @@ public class FingerPrintService implements IFingerPrintService {
 	@Override
 	public void createFingerRequest(IFingerPrintCallback callback) {
 		reset();
-		touchId.createKey(false);
+		touchId.createKey(true);
 		recognizeFinger(IUnionTouchId.CipherMode.ENCRYPT, callback);
 	}
 

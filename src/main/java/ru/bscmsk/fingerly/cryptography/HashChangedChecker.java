@@ -42,7 +42,7 @@ public class HashChangedChecker {
     }
 
     public boolean isInvalidateByBiometricEnrollmentEnabled() {
-        return prefsStore.get(INVALIDATE_BY_BIOMETRIC_ENROLLMENT, boolean.class, true);
+        return prefsStore.get(INVALIDATE_BY_BIOMETRIC_ENROLLMENT, Boolean.class, true);
     }
 
     public void removeHash() {
@@ -50,6 +50,7 @@ public class HashChangedChecker {
     }
 
     public boolean checkHash(String hash) {
+        //if we don't need to check invalidate
         if (TextUtils.isEmpty(hash) || !isInvalidateByBiometricEnrollmentEnabled())
             return true;
         try {

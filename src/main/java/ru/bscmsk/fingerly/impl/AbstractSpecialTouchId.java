@@ -43,6 +43,9 @@ public abstract class AbstractSpecialTouchId extends AbstractTouchId {
 
     @Override
     public boolean isKeyPermanentlyInvalidated() {
+        if (!hashChangedChecker.isInvalidateByBiometricEnrollmentEnabled())
+            return false;
+
         return hashChangedChecker.hasSavedHash() &&
                 !(hashChangedChecker.checkHash(getHashedFingers()) &&
                         cipherInitializer.hasCipherKey());
