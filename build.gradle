@@ -16,7 +16,7 @@ allprojects {
 }
 apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
-def commitCount = "";
+def commitCount = ""
 
 android {
     getCommitCount(commitCount)
