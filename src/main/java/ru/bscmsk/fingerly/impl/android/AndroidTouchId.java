@@ -13,20 +13,28 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.os.CancellationSignal;
-import ru.bscmsk.fingerly.TouchIdCodes;
-import ru.bscmsk.fingerly.impl.AbstractTouchId;
-import ru.bscmsk.fingerly.interfaces.UnionTouchIdCallback;
-import ru.bscmsk.fingerly.utils.AppLogger;
-import ru.bscmsk.fingerly.utils.IPrefsStore;
+
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import java.io.IOException;
-import java.security.*;
-import java.security.cert.CertificateException;
+
+import ru.bscmsk.fingerly.TouchIdCodes;
+import ru.bscmsk.fingerly.impl.AbstractTouchId;
+import ru.bscmsk.fingerly.interfaces.UnionTouchIdCallback;
+import ru.bscmsk.fingerly.utils.AppLogger;
+import ru.bscmsk.fingerly.utils.IPrefsStore;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 import static ru.bscmsk.fingerly.TouchIdCodes.FINGERPRINT_ERROR_CANCELED;
@@ -42,7 +50,6 @@ import static ru.bscmsk.fingerly.TouchIdCodes.FINGERPRINT_ERROR_LOCKOUT;
 public class AndroidTouchId extends AbstractTouchId {
 	private static final String ANDROID_KEY_STORE_NAME = "AndroidKeyStore";
 	private static final String TOUCH_ID_KEY = "DefaultKeyName";
-	private static final String AES_IV = "AES_IV";
 	private final int LOCKOUT_TIMEOUT = 35000;
 	private KeyStore mKeyStore;
 	private KeyGenerator mKeyGenerator;

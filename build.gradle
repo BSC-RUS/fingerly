@@ -43,7 +43,7 @@ publish {
     userOrg = 'bscrussia'
     groupId = 'ru.bsc.mobile'
     artifactId = 'fingerly'
-    publishVersion = '1.0.3'
+    publishVersion = '1.0.4'
     desc = 'This repository contains a library for working with fingerprints on different devices.'
     licences = ['Apache-2.0']
     uploadName = 'Fingerly'
