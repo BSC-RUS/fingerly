@@ -13,28 +13,20 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v4.os.CancellationSignal;
-
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
+import ru.bscmsk.fingerly.TouchIdCodes;
+import ru.bscmsk.fingerly.impl.AbstractTouchId;
+import ru.bscmsk.fingerly.interfaces.UnionTouchIdCallback;
+import ru.bscmsk.fingerly.utils.AppLogger;
+import ru.bscmsk.fingerly.utils.IPrefsStore;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-
-import ru.bscmsk.fingerly.TouchIdCodes;
-import ru.bscmsk.fingerly.impl.AbstractTouchId;
-import ru.bscmsk.fingerly.interfaces.UnionTouchIdCallback;
-import ru.bscmsk.fingerly.utils.AppLogger;
-import ru.bscmsk.fingerly.utils.IPrefsStore;
+import java.io.IOException;
+import java.security.*;
+import java.security.cert.CertificateException;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 import static ru.bscmsk.fingerly.TouchIdCodes.FINGERPRINT_ERROR_CANCELED;
@@ -54,7 +46,7 @@ public class AndroidTouchId extends AbstractTouchId {
 	private KeyStore mKeyStore;
 	private KeyGenerator mKeyGenerator;
 	private CancellationSignal cancellationSignal;
-	private byte[] IV = new byte[] {0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1,0x1};
+	private byte[] IV  = "iv salt for 1234".getBytes();
 
 	public AndroidTouchId(Context context, IPrefsStore prefs) {
 		super(context, prefs);
@@ -270,6 +262,7 @@ public class AndroidTouchId extends AbstractTouchId {
 			// Require the user to authenticate with a fingerprint to authorize every use
 			// of the key
 			.setUserAuthenticationRequired(true)
+			.setRandomizedEncryptionRequired(false)
 			.setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7);
 		// This is a workaround to avoid crashes on devices whose API level is < 24
 		// because KeyGenParameterSpec.Builder#setInvalidatedByBiometricEnrollment is only
